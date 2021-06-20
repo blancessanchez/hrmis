@@ -39,6 +39,7 @@ class AppController extends Controller
      */
     public function initialize(): void
     {
+        $this->viewBuilder()->setLayout('main');
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
