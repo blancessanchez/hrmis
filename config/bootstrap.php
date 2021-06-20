@@ -60,13 +60,13 @@ use Cake\Utility\Security;
  * security risks. See https://github.com/josegonzalez/php-dotenv#general-security-information
  * for more information for recommended practices.
 */
-// if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
-//     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
-//     $dotenv->parse()
-//         ->putenv()
-//         ->toEnv()
-//         ->toServer();
-// }
+if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
+    $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
+    $dotenv->parse()
+        ->putenv()
+        ->toEnv()
+        ->toServer();
+}
 
 /*
  * Read configuration file and inject configuration into various
@@ -89,6 +89,18 @@ try {
  */
 if (file_exists(CONFIG . 'app_local.php')) {
     Configure::load('app_local', 'default');
+}
+
+/**
+ * Load additional base configuration file
+ */
+Configure::load('config');
+
+/**
+ * Load additional configuration overrides
+ */
+if (file_exists(CONFIG . 'config.php')) {
+    Configure::load('config', 'default');
 }
 
 /*
