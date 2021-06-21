@@ -70,9 +70,7 @@
         <?= $this->element('navigation') ?>
       </section>
     </aside>
-
     <?= $this->fetch('content') ?>
-
     <footer class="main-footer">
       <div class="pull-right hidden-xs">
         <b>Version</b> 2.0.0
@@ -81,7 +79,6 @@
       reserved.
     </footer>
   </div>
-
   <?= $this->Html->script([
       'jquery/jquery-ui/jquery-ui.min.js',
       'bootstrap/dist/js/bootstrap.min.js',
@@ -98,7 +95,7 @@
       'moment/moment.min.js',
       'jquery/jquery-knob/jquery.knob.min.js',
       'main.js'
-    ])
+  ]);
   ?>
 </body>
 </html>
