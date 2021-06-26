@@ -5,14 +5,16 @@ use Migrations\AbstractMigration;
 
 class InitialTables extends AbstractMigration
 {
+    public $autoId = false;
+
     /**
-     * Change Method.
+     * Up Method.
      *
      * More information on this method is available here:
      * https://book.cakephp.org/phinx/0/en/migrations.html#the-change-method
      * @return void
      */
-    public function change()
+    public function up()
     {
         $this->table('activity_logs')
             ->addColumn('id', 'integer', [
@@ -167,12 +169,12 @@ class InitialTables extends AbstractMigration
                 'limit' => 10,
                 'null' => true,
             ])
-            ->addColumn('gender', 'citizenship', [
+            ->addColumn('citizenship', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => false
             ])
-            ->addColumn('gender', 'citizenship_country', [
+            ->addColumn('citizenship_country', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => false
@@ -657,5 +659,27 @@ class InitialTables extends AbstractMigration
                 'null' => true,
             ])
             ->create();
+    }
+
+    /**
+     * Down Method.
+     *
+     * More information on this method is available here:
+     * https://book.cakephp.org/phinx/0/en/migrations.html#the-change-method
+     * @return void
+     */
+    public function down()
+    {
+        $this->table('activity_logs')->drop()->save();
+        $this->table('departments')->drop()->save();
+        $this->table('employees')->drop()->save();
+        $this->table('employee_accounts')->drop()->save();
+        $this->table('employee_educations')->drop()->save();
+        $this->table('employee_employments')->drop()->save();
+        $this->table('holidays')->drop()->save();
+        $this->table('job_positions')->drop()->save();
+        $this->table('leaves')->drop()->save();
+        $this->table('leave_balances')->drop()->save();
+        $this->table('terms')->drop()->save();
     }
 }
