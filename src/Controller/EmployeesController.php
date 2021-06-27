@@ -56,6 +56,21 @@ class EmployeesController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+    public function home()
+    {
+        $this->paginate = [
+            'contain' => ['Departments', 'JobPositions'],
+        ];
+        $employees = $this->paginate($this->Employees);
+
+        $this->set(compact('employees'));
+    }
+
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function index()
     {
         $this->paginate = [

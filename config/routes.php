@@ -73,19 +73,25 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->fallbacks();
 });
 
+$routes->scope('/activity-logs', function (RouteBuilder $builder) {
+    $builder->connect('/', 'ActivityLogs::index');
+    $builder->connect('/add', 'ActivityLogs::add');
+});
+
 $routes->scope('/employees', function (RouteBuilder $builder) {
     $builder->connect('/', 'Employees::index');
     $builder->connect('/add', 'Employees::add');
-});
-
-$routes->scope('/leaves', function (RouteBuilder $builder) {
-    $builder->connect('/', 'Leaves::index');
-    $builder->connect('/add', 'Leaves::add');
+    $builder->connect('/home', 'Employees::home');
 });
 
 $routes->scope('/job-positions', function (RouteBuilder $builder) {
     $builder->connect('/', 'JobPositions::index');
     $builder->connect('/add', 'JobPositions::add');
+});
+
+$routes->scope('/leaves', function (RouteBuilder $builder) {
+    $builder->connect('/', 'Leaves::index');
+    $builder->connect('/add', 'Leaves::add');
 });
 
 /*

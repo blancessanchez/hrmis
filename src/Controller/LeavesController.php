@@ -19,7 +19,7 @@ class LeavesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Employees', 'LeaveTypes', 'IsApprovedByEmployees'],
+            'contain' => ['Employees'],
         ];
         $leaves = $this->paginate($this->Leaves);
 
@@ -36,7 +36,7 @@ class LeavesController extends AppController
     public function view($id = null)
     {
         $leave = $this->Leaves->get($id, [
-            'contain' => ['Employees', 'LeaveTypes', 'IsApprovedByEmployees'],
+            'contain' => ['Employees'],
         ]);
 
         $this->set(compact('leave'));
@@ -60,9 +60,7 @@ class LeavesController extends AppController
             $this->Flash->error(__('The leave could not be saved. Please, try again.'));
         }
         $employees = $this->Leaves->Employees->find('list', ['limit' => 200]);
-        $leaveTypes = $this->Leaves->LeaveTypes->find('list', ['limit' => 200]);
-        $isApprovedByEmployees = $this->Leaves->IsApprovedByEmployees->find('list', ['limit' => 200]);
-        $this->set(compact('leave', 'employees', 'leaveTypes', 'isApprovedByEmployees'));
+        $this->set(compact('leave', 'employees'));
     }
 
     /**
@@ -87,9 +85,7 @@ class LeavesController extends AppController
             $this->Flash->error(__('The leave could not be saved. Please, try again.'));
         }
         $employees = $this->Leaves->Employees->find('list', ['limit' => 200]);
-        $leaveTypes = $this->Leaves->LeaveTypes->find('list', ['limit' => 200]);
-        $isApprovedByEmployees = $this->Leaves->IsApprovedByEmployees->find('list', ['limit' => 200]);
-        $this->set(compact('leave', 'employees', 'leaveTypes', 'isApprovedByEmployees'));
+        $this->set(compact('leave', 'employees'));
     }
 
     /**

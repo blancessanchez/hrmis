@@ -1,54 +1,55 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\ActivityLog[]|\Cake\Collection\CollectionInterface $activityLogs
- */
-?>
-<div class="activityLogs index content">
-    <?= $this->Html->link(__('New Activity Log'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Activity Logs') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('employee_id') ?></th>
-                    <th><?= $this->Paginator->sort('description') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th><?= $this->Paginator->sort('deleted_date') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($activityLogs as $activityLog): ?>
-                <tr>
-                    <td><?= $this->Number->format($activityLog->id) ?></td>
-                    <td><?= $activityLog->has('employee') ? $this->Html->link($activityLog->employee->id, ['controller' => 'Employees', 'action' => 'view', $activityLog->employee->id]) : '' ?></td>
-                    <td><?= h($activityLog->description) ?></td>
-                    <td><?= h($activityLog->created) ?></td>
-                    <td><?= h($activityLog->modified) ?></td>
-                    <td><?= $this->Number->format($activityLog->deleted) ?></td>
-                    <td><?= h($activityLog->deleted_date) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $activityLog->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $activityLog->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $activityLog->id], ['confirm' => __('Are you sure you want to delete # {0}?', $activityLog->id)]) ?>
+<?php $this->assign('title', 'Activity Logs'); ?>
+<div class="content-wrapper">
+  <section class="content-header">
+    <br>
+    <ol class="breadcrumb">
+      <li>
+        <a href="<?= $this->Url->build([
+          'controller' => 'EmployeeInformation',
+          'action' => 'home'
+        ]);
+        ?>"><i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">Activity Logs</a></li>
+    </ol>
+  </section>
+
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <?= $this->Flash->render(); ?>
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">Activity Logs</h3>
+          </div>
+          <div class="box-body">
+            <table id="table_data" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>Id</th>
+                <th>Employee Name</th>
+                <th>Activity</th>
+                <th>Date</th>
+              </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($activityLogs as $log) : ?>
+                  <tr>
+                    <td><?= h($log->id) ?></td>
+                    <td>
+                      <?= h($log->employee_information->last_name . ', ' .
+                        $log->employee_information->first_name . ' ' .
+                        $log->employee_information->middle_name) ?>
                     </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                    <td><?= h($log->description) ?></td>
+                    <td><?= date('Y-m-d H:i:s', strtotime($log->created)) ?></td>
+                  </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
+  </section>
 </div>
