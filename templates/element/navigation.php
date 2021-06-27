@@ -5,31 +5,11 @@
     <?= $this->Html->link(
       $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) . 
       'Home', [
-        'controller' => 'EmployeeInformation',
+        'controller' => 'Employees',
         'action' => 'home'
       ],
       ['escape' => false]
     ); ?>
-  </li>
-  <li>
-      <?= $this->Html->link(
-      $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) .
-      'Leaves List', [
-          'controller' => 'Leaves',
-          'action' => 'index'
-      ],
-      ['escape' => false]
-      ); ?>
-  </li>
-  <li>
-      <?= $this->Html->link(
-      $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) .
-      'Activity Logs', [
-          'controller' => 'ActivityLogs',
-          'action' => 'index'
-      ],
-      ['escape' => false]
-      ); ?>
   </li>
   <li>
     <?= $this->Html->link(
@@ -73,8 +53,8 @@
           <?= $this->Html->link(
             $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) . 
             'Employee List', [
-              'controller' => 'EmployeeInformation',
-              'action' => 'employeeList'
+              'controller' => 'Employees',
+              'action' => 'index'
             ],
             ['escape' => false]
           ); ?>
@@ -83,7 +63,7 @@
           <?= $this->Html->link(
             $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) . 
             'Add New Employee', [
-              'controller' => 'EmployeeInformation',
+              'controller' => 'Employees',
               'action' => 'add'
             ],
             ['escape' => false]
@@ -99,16 +79,6 @@
       </span>
     </a>
       <ul class="treeview-menu">
-        <li>
-        <?= $this->Html->link(
-          $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) . 
-          'System Name', [
-            'controller' => 'Configurations',
-            'action' => 'edit'
-          ],
-          ['escape' => false]
-        ); ?>
-        </li>
         <li>
           <?= $this->Html->link(
             $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) . 
@@ -131,16 +101,6 @@
         </li>
       </ul>
   </li>
-  <li>
-    <?= $this->Html->link(
-      $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) . 
-      'Apply Leave', [
-        'controller' => 'Leaves',
-        'action' => 'add'
-      ],
-      ['escape' => false]
-    ); ?>
-  </li>
   <li class="treeview">
     <a href="#">
       <i class="fa fa-circle-o"></i> <span>Account Settings</span>
@@ -153,7 +113,7 @@
           <?= $this->Html->link(
             $this->Html->tag('i', '', ['class' => 'fa fa-circle-o']) . 
             'Change Password', [
-              'controller' => 'EmployeeInformation',
+              'controller' => 'Employees',
               'action' => 'changePassword'
             ],
             ['escape' => false]

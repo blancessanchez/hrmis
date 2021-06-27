@@ -73,6 +73,21 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->fallbacks();
 });
 
+$routes->scope('/employees', function (RouteBuilder $builder) {
+    $builder->connect('/', 'Employees::index');
+    $builder->connect('/add', 'Employees::add');
+});
+
+$routes->scope('/leaves', function (RouteBuilder $builder) {
+    $builder->connect('/', 'Leaves::index');
+    $builder->connect('/add', 'Leaves::add');
+});
+
+$routes->scope('/job-positions', function (RouteBuilder $builder) {
+    $builder->connect('/', 'JobPositions::index');
+    $builder->connect('/add', 'JobPositions::add');
+});
+
 /*
  * If you need a different set of middleware or none at all,
  * open new scope and define routes there.

@@ -75,7 +75,7 @@
       <div class="pull-right hidden-xs">
         <b>Version</b> 2.0.0
       </div>
-      <strong>Copyright &copy; 2020 <a href="#">PUP MIT</a>.</strong> All rights
+      <strong>Copyright &copy; 2021 <a href="#">PUP MIT</a>.</strong> All rights
       reserved.
     </footer>
   </div>
