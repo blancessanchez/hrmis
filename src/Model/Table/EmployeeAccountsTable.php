@@ -98,4 +98,21 @@ class EmployeeAccountsTable extends Table
 
         return $rules;
     }
+
+    /**
+     * findAuth method
+     *
+     * @return array $query
+     */
+    public function findAuth(\Cake\ORM\Query $query, array $options)
+    {
+        $query
+            ->select([
+                'id',
+                'employee_id',
+                'password'
+            ]);
+
+        return $query;
+    }
 }

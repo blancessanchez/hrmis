@@ -17,8 +17,6 @@ use Cake\Event\EventInterface;
  * @property \App\Model\Table\JobPositionsTable $JobPositions
  * @property \App\Model\Table\LeavesBalancesTable $LeaveBalances
  * @property \App\Model\Table\LeavesTable $Leaves
- *
- *
  */
 class EmployeesController extends AppController
 {
@@ -52,7 +50,7 @@ class EmployeesController extends AppController
     }
 
     /**
-     * Index method
+     * Home method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */

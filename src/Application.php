@@ -16,6 +16,10 @@ declare(strict_types=1);
  */
 namespace App;
 
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Core\Exception\MissingPluginException;
@@ -28,6 +32,8 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -36,6 +42,7 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  * want to use in your application.
  */
 class Application extends BaseApplication
+    implements AuthenticationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -65,6 +72,10 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+        $this->addPlugin('Authentication');
+        $this->addPlugin('Authorization');
+        $this->addPlugin('Muffin/Orderly');
+        $this->addPlugin('Muffin/Trash');
     }
 
     /**
@@ -84,6 +95,8 @@ class Application extends BaseApplication
             ->add(new AssetMiddleware([
                 'cacheTime' => Configure::read('Asset.cacheTime'),
             ]))
+
+            ->add(new AuthenticationMiddleware($this))
 
             // Add routing middleware.
             // If you have a large number of routes connected, turning on routes
@@ -136,5 +149,34 @@ class Application extends BaseApplication
         $this->addPlugin('Migrations');
 
         // Load more plugins here
+    }
+
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $authenticationService = new AuthenticationService([
+            'unauthenticatedRedirect' => Router::url('/hrmis/login'),
+            'queryParam' => 'redirect',
+        ]);
+
+        // Load identifiers, ensure we check employee_id and password fields
+        $authenticationService->loadIdentifier('Authentication.Password', [
+            'fields' => [
+                'username' => 'employee_id',
+                'password' => 'password',
+            ]
+        ]);
+
+        // Load the authenticators, you want session first
+        $authenticationService->loadAuthenticator('Authentication.Session');
+        // Configure form data check to pick email and password
+        $authenticationService->loadAuthenticator('Authentication.Form', [
+            'fields' => [
+                'username' => 'employee_id',
+                'password' => 'password',
+            ],
+            'loginUrl' => Router::url('/hrmis/login'),
+        ]);
+
+        return $authenticationService;
     }
 }

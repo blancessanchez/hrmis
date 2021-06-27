@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Event\EventInterface;
+
 /**
  * EmployeeAccounts Controller
  *
@@ -11,6 +13,97 @@ namespace App\Controller;
  */
 class EmployeeAccountsController extends AppController
 {
+        /**
+     * @inheritDoc
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->loadComponent('Auth', [
+            'loginAction' => [
+                'controller' => 'EmployeeAccounts',
+                'action' => 'login',
+                // 'plugin' => 'Users'
+            ],
+            'authError' => 'Did you really think you are allowed to see that?',
+            // 'authenticate' => [
+            //     'Form' => [
+            //         'finder' => 'auth'
+            //     ]
+            // ],
+            'storage' => 'Session'
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function beforeFilter(EventInterface $event)
+    {
+        $parentBeforeFilterEvent = parent::beforeFilter($event);
+        if ($parentBeforeFilterEvent instanceof \Cake\Http\Response) {
+            return $parentBeforeFilterEvent;
+        }
+
+        // Configure the login action to not require authentication, preventing
+        // the infinite redirect loop issue
+        $this->Authentication->addUnauthenticatedActions(['login']);
+    }
+
+    /**
+     * Login method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function login()
+    {
+        $this->viewBuilder()->setLayout('login');
+        // if ($this->request->is('post')) {
+        //     $user = $this->Auth->identify();
+        //     if ($user) {
+        //         $this->Auth->setUser($user);
+
+        //         // if ($this->ActivityLog->logginginActivityLog($user['id'], 'User login')) {
+        //             return $this->redirect($this->Auth->redirectUrl());
+        //         // }
+        //         // $this->Flash->error(__('Error saving login info in activity log.'));
+        //     }
+        //     $this->Flash->error(__('Invalid username or password, try again.'));
+        // }
+        $this->request->allowMethod(['get', 'post']);
+        $result = $this->Authentication->getResult();
+        // pr($result);die;
+        // regardless of POST or GET, redirect if user is logged in
+        if ($result->isValid()) {
+            // redirect to /articles after login success
+            $redirect = $this->request->getQuery('redirect', [
+                'controller' => 'Employees',
+                'action' => 'index',
+            ]);
+
+            return $this->redirect($redirect);
+        }
+        // display error if user submitted and authentication failed
+        if ($this->request->is('post') && !$result->isValid()) {
+            $this->Flash->error(__('Invalid username or password'));
+        }
+    }
+
+    /**
+     * Logout method
+     *
+     */
+    public function logout()
+    {
+        $result = $this->Authentication->getResult();
+        // regardless of POST or GET, redirect if user is logged in
+        if ($result->isValid()) {
+            $this->Authentication->logout();
+            return $this->redirect(['controller' => 'EmployeesAccount', 'action' => 'login']);
+        }
+    }
+
     /**
      * Index method
      *

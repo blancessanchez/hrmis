@@ -42,13 +42,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="box box-primary">
-          <?= $this->Form->create('Leaves', [
-              'url' => [
-                'controller' => 'Leaves',
-                'action' => 'add'
-              ],
-              // 'autocomplete' => 'off'
-          ]) ?>
+          <?= $this->Form->create($leave) ?>
             <div class="box-body">
               <div class="col-md-12">
                 <h2 class="page-header">
