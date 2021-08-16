@@ -170,7 +170,6 @@ class EmployeesController extends AppController
      */
     public function changePassword()
     {
-        // $currentUserId = $this->Auth->user('id');
         $employeeErrors = [];
         if ($this->request->is('post')) {
             $this->request->allowMethod(['post', 'delete']);
